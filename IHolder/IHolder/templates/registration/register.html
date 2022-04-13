@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+<title>Register | IHolder</title>
+<link rel="stylesheet" href="{% static 'register/register.css' %}">
+{% endblock %}
+
+
+{% block content %}
+{% if messages %}
+<div class="alert alert-secondary alert-dismissible fade show" role="alert">
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </ul>
+</div>
+{% endif %}
+<div class="div-content">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-secondary">Register</button>
+    </form>
+    <h3>You already have an account? <span><a href="/login">Sign in</a></span></h3>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // show the alert
+        setTimeout(function () {
+            $(".alert").alert('close');
+        }, 2000);
+    });
+</script>
+
+{% endblock %}

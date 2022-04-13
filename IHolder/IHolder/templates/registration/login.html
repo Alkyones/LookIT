@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block head%}
+
+    <link rel="stylesheet" href="{% static 'register/login.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+{% if form.error %}
+<div class="alert alert-secondary alert-dismissible fade show" role="alert">
+    <ul class="messages">
+        {% for error in form.errors %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ error }}</li>
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </ul>
+</div>
+{% endif %}
+<div class="div-content">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn-secondary">Login</button>
+    </form>
+</div>
+{% endblock %}
