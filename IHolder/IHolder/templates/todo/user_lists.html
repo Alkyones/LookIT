@@ -1,43 +1,37 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block head %}
-    <title>Lists | IHolder</title>
+<title>Lists | IHolder</title>
+<link rel="stylesheet" href="{% static 'todo/user_lists.css'%}">
 {% endblock %}
 
 {% block content %}
+<center style="margin-top:1.2rem;"><h2>{{user|title}}'s Lists</h2></center>
 <div class="div-content">
-    <div class="div-content-header">
-        <h1>Lists</h1>
-    </div>
-    <div class="div-content-body">
-        <div class="div-content-body-inner">
-            <div class="div-content-body-inner-left">
-                <div class="div-content-body-inner-left-body">
-                    <ul>
-                        {% for list in lists %}
-                            <li>
-                                <a href="">{{ list.name }}</a>
-                    
-                            </li>
-                        {% endfor %}
-                    </ul>
+    <div class="content-top">
+        <div class="div-content-head-inner-right">
+            <form actio="" method="post">
+                {% csrf_token %}
+                <div class="flex-form">
+                    <input type="text" name="name" placeholder="List name" class="form-control" autocomplete="off">
+                    <button type="submit" class="btn btn-secondary">Create</button>
                 </div>
-            </div>
-            <div class="div-content-body-inner-right">
-                <div class="div-content-body-inner-right-header">
-                    <h2>Create a new list</h2>
-                </div>
-                <div class="div-content-body-inner-right-body">
-                    <form actio="" method="post">
-                        {% csrf_token %}
-                        <input type="text" name="name" placeholder="List name">
-                        <input type="submit" value="Create">
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
+    <div class="div-content-body">
+        <ul class="content">
+            {% for list in todo_lists %}
+            <li class="content-item">
+                <a href="">{{ list.name }}</a>
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 </div>
 
 {% endblock %}

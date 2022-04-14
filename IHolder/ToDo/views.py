@@ -11,10 +11,10 @@ def UserLists(request):
                 new_list = form.save(commit=False)
                 new_list.user = request.user
                 new_list.save()
-                return redirect('/ToDo/lists/')
+                return redirect('/accounts/ToDo/lists/')
         else:
             form = TodoListForm()
             todo_lists = TodoList.objects.filter(user=request.user)
-        return render(request, 'todo/user_lists.html', {'todo_lists': todo_lists})
+        return render(request, 'todo/user_lists.html', {'todo_lists': todo_lists, 'form': form})
     else:
         return redirect('/login/')
