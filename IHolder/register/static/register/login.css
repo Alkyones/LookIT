@@ -1,0 +1,50 @@
+.div-content {
+    width: 65%;
+    height: 100% !important;
+    margin: 0 auto;
+    margin-top: 7.77%;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+.div-content label {
+    width: 100%;
+    margin-bottom: 0.33rem;
+    margin-left: 0.1rem;
+    display: block;
+    text-align: left;
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.div-content input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 12px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-bottom: 2.1rem;
+}
+
+.div-content button {
+    background-color: #898989;
+    font-size: 1.4rem;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+h3{
+    text-align: right;
+    margin-right: 10px;
+    color: #6e6c6c;
+}
+
+span > a {
+    text-decoration: none;
+}
