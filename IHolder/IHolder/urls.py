@@ -24,5 +24,6 @@ urlpatterns = [
     path('accounts/profile/', register_views.profile, name='profile'),
 
     #urls for the app
+    path('accounts/ToDo/', include('ToDo.urls')),  
 
 ]
