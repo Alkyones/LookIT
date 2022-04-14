@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
     path('register/', register_views.register, name='register'),
+    path('accounts/profile/', register_views.profile, name='profile'),
 
     #urls for the app
 
