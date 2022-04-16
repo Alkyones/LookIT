@@ -1,26 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
 
-    
+{% block head %}
+<link rel="stylesheet" href="{% static 'todo/user_list_items.css' %}">
+{% endblock %}
 
-    {% block content %}
+{% block content %}
 
-    <div class="div-content">
-        <div class="div-content-head">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form}}
-                <button type="submit">Add</button>
-            </form>
-        </div>
-        <div class="div-content-body">
-           <ul>
-               {% for item in todo_items %}
-                     <li>
-                          <h1>{{item}}</h1>
-                     </li>
-                {% endfor %}
-           </ul> 
-        </div>
+<div class="div-content">
+    <div class="div-content-head">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-secondary">Add</button>
+        </form>
     </div>
+    {% if todo_items %}
+    <div class="div-content-body">
+        <table>
+            <tr>
+                <th>Content</th>
+                <th>Status</th>
+                <th>Delete</th>
+            </tr>
+            {% for item in todo_items %}
+            <tr>
+                <td><h2>{{item.content}}</h2></td>
+                {% if item.is_completed == False %}
+                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/">&#128501</a></td>
+                {% else %}
+                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/">&#128505</a></td>
+                {% endif %}
+                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/delete/">&#10060</a></td>   
+            </tr>
+            {% endfor %}     
+        </table>
+    </div>
+</div>
+{% else %}
+    <div class="div-content-body">
+        <h2>No items in this list</h2>
+    </div>
+{% endif %}
 
-    {% endblock %}
+
+{% endblock %}

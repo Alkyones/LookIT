@@ -25,9 +25,7 @@
         <ul class="content">
             {% for list in todo_lists %}
             <li class="content-item">
-                <a href="/accounts/ToDo/{{ list.id }}/">{{ list.name }}</a>
-
-            </li>
+                 <div class="item-div"><a href="/accounts/ToDo/{{ list.id }}/">{{ list.name }}</a> <a href="/accounts/ToDo/{{ list.id }}/delete/">&#10060</a></div></li>
             {% endfor %}
         </ul>
     </div>

@@ -1,3 +1,4 @@
+from logging import PlaceHolder
 from django import forms
 from .models import TodoList, TodoListItem
 
@@ -9,6 +10,9 @@ class TodoListForm(forms.ModelForm):
         fields = ['name']
 
 class TodoListItemForm(forms.ModelForm):
+    content = forms.CharField(label='',widget=forms.TextInput(attrs={'placeholder': 'Enter a task'}))
     class Meta:
         model = TodoListItem
-        fields = ['content', 'is_completed']
+        fields = ['content']
+        
+        
