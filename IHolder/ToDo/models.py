@@ -23,11 +23,4 @@ class TodoListItem(models.Model):
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
-
-    def to_json(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'is_completed': self.is_completed
-        }
+        return self.content

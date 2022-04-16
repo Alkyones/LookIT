@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+    
+
+    {% block content %}
+
+    <div class="div-content">
+        <div class="div-content-head">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div class="div-content-body">
+           <ul>
+               {% for item in todo_items %}
+                     <li>
+                          <h1>{{item}}</h1>
+                     </li>
+                {% endfor %}
+           </ul> 
+        </div>
+    </div>
+
+    {% endblock %}
