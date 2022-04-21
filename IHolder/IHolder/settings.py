@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'register.apps.RegisterConfig',
     'ToDo.apps.TodoConfig',
+    'linksaver.apps.LinksaverConfig',
 ]
 
 MIDDLEWARE = [
