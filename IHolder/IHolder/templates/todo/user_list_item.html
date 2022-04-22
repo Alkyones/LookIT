@@ -27,11 +27,11 @@
             <tr>
                 <td><h2>{{item.content}}</h2></td>
                 {% if item.is_completed == False %}
-                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/">&#128501</a></td>
+                <td><a href="/accounts/Todo/{{listId}}/{{ item.id }}/">&#128501</a></td>
                 {% else %}
-                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/">&#128505</a></td>
+                <td><a href="/accounts/Todo/{{listId}}/{{ item.id }}/">&#128505</a></td>
                 {% endif %}
-                <td><a href="/accounts/ToDo/{{listId}}/{{ item.id }}/delete/">&#10060</a></td>   
+                <td><a href="/accounts/Todo/{{listId}}/{{ item.id }}/delete/">&#10060</a></td>   
             </tr>
             {% endfor %}     
         </table>

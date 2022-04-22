@@ -13,7 +13,7 @@ def UserLists(request):
                 new_list = form.save(commit=False)
                 new_list.user = request.user
                 new_list.save()
-                return redirect('/accounts/ToDo/')
+                return redirect('/accounts/Todo/')
         else:
             form = TodoListForm()
             todo_lists = TodoList.objects.filter(user=request.user)
@@ -26,7 +26,7 @@ def DeleteList(request, listId):
         if TodoList.objects.filter(id=listId):
             requested_list = request.user.todolist_set.get(id=listId)
             requested_list.delete()
-        return redirect('/accounts/ToDo/')
+        return redirect('/accounts/Todo/')
 
 
 #creating and adding / displaying list items
@@ -38,7 +38,7 @@ def ListItems(request, listId):
                 form = TodoListItemForm(request.POST)
                 if form.is_valid():
                     request.user.todolist_set.get(id=listId).todolistitem_set.create(**form.cleaned_data)
-                    return redirect(f'/accounts/ToDo/{listId}/')
+                    return redirect(f'/accounts/Todo/{listId}/')
             else:
                 form = TodoListItemForm()
 
@@ -61,7 +61,7 @@ def ListItemsUpdate(request, listId, ItemId):
             else:
                 requested_item.is_completed = True
             requested_item.save()
-            return redirect(f'/accounts/ToDo/{listId}/')
+            return redirect(f'/accounts/Todo/{listId}/')
 
 
 def ListItemsDelete(request, listId, ItemId):
@@ -70,4 +70,4 @@ def ListItemsDelete(request, listId, ItemId):
             requested_item = request.user.todolist_set.get(id=listId).todolistitem_set.get(id=ItemId)
             requested_item.delete()
             
-        return redirect(f'/accounts/ToDo/{listId}/')
+        return redirect(f'/accounts/Todo/{listId}/')

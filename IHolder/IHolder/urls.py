@@ -24,7 +24,7 @@ urlpatterns = [
     path('accounts/profile/', register_views.profile, name='profile'),
 
     #urls for the app
-    path('accounts/ToDo/', include('ToDo.urls')),
-    path('accounts/linksaver/', include('linksaver.urls')),  
+    path('accounts/Todo/', include('ToDo.urls')),
+    path('accounts/Linksaver/', include('linksaver.urls')),  
 
 ]
