@@ -32,8 +32,8 @@
                         <td>{{ link.title }}</td>
                         <td>{{ link.url }}</td>
                         <td>
-                            <a href="" class="btn btn-primary">Edit</a>
-                            <a href="" class="btn btn-danger">Delete</a>
+                            <a href="/accounts/Linksaver/edit/{{link.id}}" class="btn btn-secondary">Edit</a>
+                            <a href="/accounts/Linksaver/delete/{{link.id}}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
