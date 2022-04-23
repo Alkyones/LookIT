@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+# crud linksaver
 def linksaverIndex(request):
     return render(request, 'linksaver/index.html')
