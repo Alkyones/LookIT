@@ -11,3 +11,12 @@ class linksForm(forms.ModelForm):
             'url': forms.TextInput(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class linkEditForm(forms.ModelForm):
+    class Meta:
+        model = linksModel
+        fields = ['url', 'title', ]
+        widgets = {
+            'url': forms.TextInput(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+        }
