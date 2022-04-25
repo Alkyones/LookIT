@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class linksModel(models.Model):
     url = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    description = models.TextField(max_length=255 , null=True)
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

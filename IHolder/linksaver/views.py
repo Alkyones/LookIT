@@ -11,7 +11,7 @@ def linksaverIndex(request):
         if form.is_valid():
             data = form.cleaned_data
             request.user.linksmodel_set.create(
-                url=data['url'], title=data['title'], description=data['description'])
+                url=data['url'], title=data['title'])
 
     form = linksForm()
     links = request.user.linksmodel_set.all()

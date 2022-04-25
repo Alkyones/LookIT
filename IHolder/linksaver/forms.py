@@ -6,9 +6,8 @@ from .models import linksModel
 class linksForm(forms.ModelForm):
     class Meta:
         model = linksModel
-        fields = ['url', 'title', 'description']
+        fields = ['url', 'title']
         widgets = {
             'url': forms.TextInput(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
         }
