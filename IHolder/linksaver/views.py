@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import linksModel
-from .forms import linksForm
+from .forms import linksForm, linkEditForm
 
 # crud linksaver
 
@@ -25,3 +25,17 @@ def linksaverDelete(request, id):
     link = linksModel.objects.get(id=id)
     link.delete()
     return redirect('index')
+
+def linksaverEdit(request, id):
+    link = linksModel.objects.get(id=id)
+    if request.method == 'POST':
+        form = linkEditForm(request.POST, instance=link)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    form = linkEditForm(instance=link)
+    context = {
+        'form': form,
+        'link': link,
+    }
+    return render(request, 'linksaver/url_edit.html', context)
