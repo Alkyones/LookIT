@@ -1,0 +1,169 @@
+[33mcommit 9270ba9e4015d0933a04c8e073d480b35bc1e359[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Ata Reenes <lifeonshort@gmail.com>
+Date:   Thu Apr 28 14:10:19 2022 +0300
+
+    V1.4 Emailrenderer added
+
+[33mcommit dfea6a9a67c3e0db61b72c21d755d76e1b0ac985[m
+Author: Ata Reenes <lifeonshort@gmail.com>
+Date:   Wed Apr 27 13:46:07 2022 +0300
+
+    Prepared patch
+
+[33mcommit 0b5794661af34b08b8037db00222c80170af5fec[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Mon Apr 25 12:03:45 2022 +0300
+
+    Bugs Fixed
+
+[33mcommit 30a98b90c8bf8e755f82bc3e52e04bc9a1a08924[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Mon Apr 25 11:59:37 2022 +0300
+
+    Link saver has been created and added
+
+[33mcommit 7b5424744ef85607e5cec1214d46cb30b1a8398a[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Mon Apr 25 11:56:07 2022 +0300
+
+    edit for linksaver tool has been added
+
+[33mcommit 2d32f70f5437d926d9d2d886fae3880879a41944[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Mon Apr 25 11:43:20 2022 +0300
+
+    Edited linksaver forms
+
+[33mcommit efb559c7340a63029bb968813ed7f1a134e0fcb5[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 23 17:33:25 2022 +0300
+
+    V1.3 linksaver update edit income
+
+[33mcommit 7e88fd7eca0c7483d2d2811fd1d21e857843b684[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 23 14:52:17 2022 +0300
+
+    V1.3 created fixed and linksaver template
+
+[33mcommit df8ec1d3d19de134caecf2b68d9a159bb738a102[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 23 13:42:06 2022 +0300
+
+    V1.3 bugs fixed
+
+[33mcommit 3ae31d464c2fc27a47e3054b6bcdff2f9ecce1cd[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 22 23:09:14 2022 +0300
+
+    V1.2 bug fixes
+
+[33mcommit 015a56e50aece2813b5b1695cf35e41a94c64142[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Thu Apr 21 23:53:45 2022 +0300
+
+    V1.2 Linksaver prototype
+
+[33mcommit 68a0b2f029433c0849e9b7c4a5852d1471637af1[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Thu Apr 21 23:47:32 2022 +0300
+
+    Created linksaver template
+
+[33mcommit 41eb151e7342121ade6a8f885c8fa2c5c579937c[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 16 16:49:55 2022 +0300
+
+    V1.2 ToDo Personal completed
+
+[33mcommit 7a41d320c5e0aeacadd9cb7b3669aef289f92955[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 16 13:48:18 2022 +0300
+
+    V1.1 Todo templates and bug fixes
+
+[33mcommit b22979019c3b986c2ccc0524bad7d3606ab39d61[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Sat Apr 16 13:04:05 2022 +0300
+
+    Url fixes
+
+[33mcommit c3f1e6f2dfb2b1495ae6588ba97948a5f1f6bf50[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 01:53:49 2022 +0300
+
+    Todo template uploaded - models created
+
+[33mcommit 938dad29fe5a130b55fb83cdfd9d14505d9f10f1[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 00:37:06 2022 +0300
+
+    catche
+
+[33mcommit 9431060ef1ad8fe313b35066b2c8ad84d2ff7eaf[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 00:35:50 2022 +0300
+
+    Urls set for todo list
+
+[33mcommit ee9bcdbbb2af3bdbb661610f2eb3f3f601b3fd3f[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 00:35:09 2022 +0300
+
+    template prepared for todo list
+
+[33mcommit 5cd4b65f01211921edfc2ee63207828db6baa0c5[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 00:05:33 2022 +0300
+
+    forms have been created using models.py
+
+[33mcommit 81e85e94042622892aab8b8a8a0a4c4ae6562fdb[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Fri Apr 15 00:00:13 2022 +0300
+
+    Models registered
+
+[33mcommit 5f69acdf61fb0dd09c1cd1fefb05f7ec48b1691b[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Thu Apr 14 23:56:35 2022 +0300
+
+    Models have been created
+
+[33mcommit d3abcd6dd548d854acd5c3c80b2deb1501ce966a[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Thu Apr 14 23:52:41 2022 +0300
+
+    V1.1 Created toDo app
+
+[33mcommit 3d45d8209c271a8fe3329b959ba1eb40547fec30[m
+Author: Alkyones <lifeonshort@gmail.com>
+Date:   Thu Apr 14 23:46:24 2022 +0300
+
+    V1.1 Added register template and related urls with fixed bugs
+
+[33mcommit 64e90f4bf5f0d1fc8489faac1877061569edbe9b[m
+Author: Atakan Yildirim <64320694+Alkyones@users.noreply.github.com>
+Date:   Thu Apr 14 23:43:58 2022 +0300
+
+    V1.1 Added register app and urls
+
+[33mcommit d45e907941b260ffafaa93cb24c3e87770406679[m
+Author: Atakan Yildirim <64320694+Alkyones@users.noreply.github.com>
+Date:   Thu Apr 14 23:38:55 2022 +0300
+
+    V1.1 Profile template added and bugs fixes
+
+[33mcommit 1b8a54914ad573a8a97c400eee602388918975ac[m
+Author: Atakan Yildirim <64320694+Alkyones@users.noreply.github.com>
+Date:   Wed Apr 13 20:05:00 2022 +0300
+
+    V1 without bugs
+    
+    initial start on IHolder Django
+
+[33mcommit 77cd391e12d07832204a7df807a35ec169a9e397[m
+Author: Atakan Yildirim <64320694+Alkyones@users.noreply.github.com>
+Date:   Wed Apr 13 20:03:38 2022 +0300
+
+    Initial commit

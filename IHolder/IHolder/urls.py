@@ -25,6 +25,7 @@ urlpatterns = [
 
     #urls for the app
     path('accounts/Todo/', include('ToDo.urls')),
-    path('accounts/Linksaver/', include('linksaver.urls')),  
+    path('accounts/Linksaver/', include('linksaver.urls')),
+    path('accounts/EmailHandler/', include('emailrenderer.urls')),  
 
 ]
