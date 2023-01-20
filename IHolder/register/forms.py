@@ -15,3 +15,4 @@ class NewRegisterForm(UserCreationForm):
             'password1': None,
             'password2': None,
         }
+

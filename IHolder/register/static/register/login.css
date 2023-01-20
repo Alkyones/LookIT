@@ -1,5 +1,5 @@
 .div-content {
-    width: 65%;
+    width: 75%;
     height: 100% !important;
     margin: 0 auto;
     margin-top: 7.77%;
@@ -15,7 +15,7 @@
     display: block;
     text-align: left;
     font-size: 1.3rem;
-    color: #333;
+    color: #6e6c6c;
 }
 
 .div-content input[type=text], input[type=password] {
@@ -47,4 +47,9 @@ h3{
 
 span > a {
     text-decoration: none;
+}
+
+.div-admin {
+    width: 50px;
+    height: 50px;
 }

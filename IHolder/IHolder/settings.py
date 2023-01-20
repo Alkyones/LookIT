@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ToDo.apps.TodoConfig',
     'linksaver.apps.LinksaverConfig',
     'emailrenderer.apps.EmailrendererConfig',
+    'Itracker.apps.ItrackerConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'lifeonshort@gmail.com'
 EMAIL_HOST_PASSWORD = 'eljfjjotwqaozfud'
+
+#redirects
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'

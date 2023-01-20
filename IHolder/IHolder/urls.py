@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from register import views as register_views
+from Itracker.views import mainPage as baseView
 urlpatterns = [
     #system urls for admin and authendication
     path('admin/', admin.site.urls),
@@ -23,9 +24,11 @@ urlpatterns = [
     path('register/', register_views.register, name='register'),
     path('accounts/profile/', register_views.profile, name='profile'),
 
+    path('', baseView, name="Index_page"),
     #urls for the app
     path('accounts/Todo/', include('ToDo.urls')),
     path('accounts/Linksaver/', include('linksaver.urls')),
-    path('accounts/EmailHandler/', include('emailrenderer.urls')),  
+    path('accounts/EmailHandler/', include('emailrenderer.urls')), 
+    path('accounts/Itracker/', include('Itracker.urls')) 
 
 ]
