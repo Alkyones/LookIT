@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if trendNews%}
+    {% for new in trendNews %}
+    <div class="row newsPost">
+        <div class="col-9">
+            <div class="d-flex p-1">
+                {% if new.image.contentUrl %}
+                <a href="{{new.url}}"><img src="{{new.image.contentUrl}}"  width="200" height="200" alt="image"></a>
+                {% else %}
+                <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                {% endif %}
+                <div class="pl-5 m-2">
+                    <h3>{{new.name}}</h3>
+                    <p>{{new.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+    {%endif%}
+</div>
+{% endblock %}

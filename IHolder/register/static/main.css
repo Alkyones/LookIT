@@ -41,3 +41,9 @@ body{
     padding-bottom: 2px !important;
     --bg-h: 2px !important;
   }
+
+.newsPost:hover{
+    background-color: rgb(237, 234, 234) !important;
+    border-radius: 2%;
+    transition: all ease 0.4s;
+}

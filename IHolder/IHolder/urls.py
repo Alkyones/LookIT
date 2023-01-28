@@ -29,6 +29,6 @@ urlpatterns = [
     path('accounts/Todo/', include('ToDo.urls')),
     path('accounts/Linksaver/', include('linksaver.urls')),
     path('accounts/EmailHandler/', include('emailrenderer.urls')), 
-    path('accounts/Itracker/', include('Itracker.urls')) 
+    path('Itracker/', include('Itracker.urls')) 
 
 ]
