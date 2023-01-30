@@ -3,13 +3,18 @@
 
 {% block content %}
 <div class="container mt-5">
+    {% if messages %}
+        {%for message in messages%}
+            <div class="alert alert-success alert-dismissible fade show js-alert" role="alert">{{message}}</div>
+        {%endfor%}
+    {%endif%}
     {% if trendNews%}
     {% for new in trendNews %}
     <div class="row newsPost">
-        <div class="col-9">
+        <div class="col-12">
             <div class="d-flex p-1">
                 {% if new.image.contentUrl %}
-                <a href="{{new.url}}"><img src="{{new.image.contentUrl}}"  width="200" height="200" alt="image"></a>
+                <a href="{{new.url}}"><img src="{{new.image.contentUrl}}" target="_blank" width="200" height="200" alt="image"></a>
                 {% else %}
                 <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
                 {% endif %}
@@ -17,11 +22,72 @@
                     <h3>{{new.name}}</h3>
                     <p>{{new.description}}</p>
                 </div>
+                <div class="col-sm-4">
+                    {% if new.name in savedNews %}
+                    <a href="#" class="btn btn-success col-sm-3">Saved</a>
+                    {%else%}
+                    <a href="/Itracker/save/{{new.name}}/{{page}}" class="btn btn-secondary col-sm-3">Save</a>
+                    {%endif%}
+                    <a href="/Itracker/share/{{new.name}}/{{page}}" class="btn btn-warning col-sm-3">Share</a>
+                </div>
             </div>
         </div>
     </div>
     {%endfor%}
     {%else%}
+        <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">News can't be found with given criteria please try again later!</div>
+    {%endif%}
+    {% if page == 1 %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+          <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="?page=2">Next</a>
+          </li>
+        </ul>
+      </nav>
+    {%elif page == 2%}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="/">1</a></li>
+          <li class="page-item active"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="?page=3">Next</a>
+          </li>
+        </ul>
+      </nav>
+    {% elif page == 3 %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" href="?page=2" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+          <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+          <li class="page-item active"><a class="page-link" href="#">3</a></li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
     {%endif%}
 </div>
+<script type="text/javascript">
+    if (document.querySelector('.js-alert')) {
+    document.querySelectorAll('.js-alert').forEach(function($el) {
+      setTimeout(() => {
+        $el.classList.remove('show');
+      }, 1500);
+    });
+  }
+</script>
 {% endblock %}
