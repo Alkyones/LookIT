@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="div-content">
     
     <h1>Welcome back {{user}}</h1>
+    <div class="btn-group btn-group-lg" role="group" aria-label="...">
+        <a class="btn btn-secondary underline " href="">Friends</a>
+        <a class="btn btn-secondary underline" href="/accounts/profile/saved-news">Saved News</a>
+        <a class="btn btn-secondary underline" href="">Account Preferences</a>
+    </div>
     
 </div>
 

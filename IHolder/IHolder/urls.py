@@ -17,12 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from register import views as register_views
 from Itracker.views import mainPage as baseView
+from Itracker import views as itracker_views
+
 urlpatterns = [
     #system urls for admin and authendication
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
     path('register/', register_views.register, name='register'),
+    
     path('accounts/profile/', register_views.profile, name='profile'),
+    path('accounts/profile/saved-news/', itracker_views.savedNews, name='saved-news'),
+    path('accounts/profile/saved-news/share/<int:newId>/', itracker_views.savedNewShare, name='saved-news-share'),
+    path('accounts/profile/saved-news/delete/<int:newId>/', itracker_views.savedNewDelete, name='saved-news-delete'),
+
+
 
     path('', baseView, name="Index_page"),
     #urls for the app

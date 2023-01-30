@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import NewRegisterForm
 from django.contrib import messages
 
@@ -19,5 +19,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def profile(request):
-    return render(request, 'registration/profile.html')
-    
+    if request.user.is_authenticated:
+        return render(request, 'registration/profile.html')
+    else:
+        redirect('/login')
