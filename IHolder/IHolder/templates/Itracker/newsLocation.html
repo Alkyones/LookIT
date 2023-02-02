@@ -20,7 +20,7 @@
     <h3>{{ savedNews|length }} News Found Nearby. </h3>
     {% for new in savedNews %}
     <div class="row newsPost">
-        <div class="col-12">
+        <div class="d-flex col-12">
             <div class="d-flex p-1">
                 {% if new.photo_url %}
                 <a href="{{new.link}}"><img src="{{new.photo_url}}" target="_blank" width="200" height="200" alt="image"></a>
