@@ -8,67 +8,73 @@
             <div class="alert alert-success alert-dismissible fade show js-alert" role="alert">{{message}}</div>
         {%endfor%}
     {%endif%}
-    <form action="/Itracker/search/" method="post">
+    <form action="/events/" method="post">
       {% csrf_token %}
       <div class="input-group">
         {{ form }}
         <button type="submit" class="btn btn-outline-secondary">search</button>
       </div>
     </form>
-    {% if trendNews%}
-    {% for new in trendNews %}
-    <div class="row newsPost">
-        <div class="col-12">
-            <div class="d-flex p-1">
-                {% if new.image.contentUrl %}
-                <a href="{{new.url}}"><img src="{{new.image.contentUrl}}" target="_blank" width="200" height="200" alt="image"></a>
+    <center><h1>Popular Online Events</h1></center>
+    {% if lastEvents%}
+    {% for event in lastEvents %}
+    <div class="row newsPost mt-5">
+        <div class="d-flex p-1 col-12">
+            <div class="d-flex col-sm-9">
+                {% if event.image %}
+                <a href="{{event.link}}"><img src="{{event.image}}" target="_blank" width="200" height="200" alt="image"></a>
                 {% else %}
-                {% if new.image.url%}
-                <a href="{{new.url}}"><img src="{{new.image.url}}"  width="200" height="200" alt="image"></a>
-                {% elif new.image %}
-                {% if new.image != 'not found' %}
-                <a href="{{new.url}}"><img src="{{new.image}}"  width="200" height="200" alt="image"></a>
-                {% else %}
-                <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
-                {% endif %}
-                {%else%}
-                <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
-                {%endif%}
+                <a href="{{event.link}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
                 {% endif %}
                 <div class="pl-5 m-2">
-                    {% if new.name %}
-                    <h3>{{new.name}}</h3>
-                    {% else %}
-                    <h3>{{new.title}}</h3>
-                    {% endif %}
-                    <p>{{new.description}}</p>
+                    <h3>{{event.title}}</h3>
+                    <p>{{event.timeEvent}}</p>
                 </div>
-                <div class="col-sm-4">
-                    {% if new.name %}
-                    {% if new.name in savedNews %}
-                    <a href="#" class="btn btn-success col-sm-3">Saved</a>
-                    {%else%}
-                    <a href="/Itracker/save/{{new.name}}/{{page}}" class="btn btn-secondary col-sm-3">Save</a>
-                    {%endif%}
-                    {% else %}
-                    {% if new.title in savedNews %}
-                    <a href="#" class="btn btn-success col-sm-3">Saved</a>
-                    {%else%}
-                    <a href="/Itracker/save/{{new.title}}/{{page}}" class="btn btn-secondary col-sm-3">Save</a>
-                    {%endif%}
-                    {% endif%}
-                    <input type="text" value="{{new.url}}" id="myInput" hidden>
-                    <button onclick="myFunction('{{new.url}}')" class="btn btn-warning col-sm-3" id="{{new.url}}">Share</button>
-                    <!-- <a href="/Itracker/share/{{new.name}}/{{page}}" class="btn btn-warning col-sm-3">Share</a> -->
+              </div>
+              <div class="col-sm-4">
+                <div class="d-flex flex-row-reverse justify-content-center">
+                  <input type="text" value="{{event.link}}" id="myInput" hidden>
+                  <button onclick="myFunction()" class="btn btn-warning col-sm-3">Share</button>
                 </div>
-            </div>
+                    
+                  <!-- <a href="/Itracker/share/{{new.name}}/{{page}}" class="btn btn-warning col-sm-3">Share</a> -->
+              </div>
         </div>
     </div>
     {%endfor%}
+    <div id="allevents" hidden>
+
+      {% for event in lastEventsAll %}
+      <div class="row newsPost mt-5">
+          <div class="d-flex p-1 col-12">
+              <div class="d-flex col-sm-9">
+                  {% if event.image %}
+                  <a href="{{event.link}}"><img src="{{event.image}}" target="_blank" width="200" height="200" alt="image"></a>
+                  {% else %}
+                  <a href="{{event.link}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                  {% endif %}
+                  <div class="pl-5 m-2">
+                      <h3>{{event.title}}</h3>
+                      <p>{{event.timeEvent}}</p>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="d-flex flex-row-reverse justify-content-center">
+                    <input type="text" value="{{event.link}}" id="myInput" hidden>
+                    <button onclick="myFunction('{{event.link}}')" class="btn btn-warning col-sm-3" id="{{event.link}}">Share</button>
+                  </div>
+                      
+                    <!-- <a href="/Itracker/share/{{new.name}}/{{page}}" class="btn btn-warning col-sm-3">Share</a> -->
+                </div>
+          </div>
+      </div>
+      {%endfor%}
+    </div>
+    <center><button onclick="loadAll()" class="btn btn-outline-secondary">Load more</button></center>
     {%else%}
-        <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">News can't be found with given criteria please try again later!</div>
+        <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">Events can't be found with given criteria please try again later!</div>
     {%endif%}
-    {% if page == 1 %}
+    <!-- {% if page == 1 %}
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item disabled">
@@ -110,7 +116,7 @@
           </li>
         </ul>
       </nav>
-    {%endif%}
+    {%endif%} -->
 </div>
 <script type="text/javascript">
     if (document.querySelector('.js-alert')) {
@@ -133,6 +139,11 @@
     btn.innerText = "Copied";
     btn.className = "btn btn-success col-sm-3"
     setInterval(() => { btn.innerText = "Share"; btn.className = "btn btn-warning col-sm-3"},5000);
+    }
+    function loadAll() {
+    
+    var alldiv = document.getElementById("allevents");
+    alldiv.removeAttribute("hidden"); 
     }
 </script>
 {% endblock %}

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'linksaver.apps.LinksaverConfig',
     'emailrenderer.apps.EmailrendererConfig',
     'Itracker.apps.ItrackerConfig',
+    'eventTracker.apps.EventtrackerConfig',
 ]
 
 MIDDLEWARE = [

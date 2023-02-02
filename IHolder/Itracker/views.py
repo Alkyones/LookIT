@@ -1,18 +1,32 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import newsModel
+from .models import newsModel, userSavedNewsModel
 from .forms import searchForm
 import requests
 import pyperclip
 
 
 # Create your views here.
-searchUrl = "https://bing-news-search1.p.rapidapi.com/news/search"
+# searchUrl = "https://bing-news-search1.p.rapidapi.com/news/search"
+# # headers = {
+# # 	"X-BingApis-SDK": "true",
+# # 	"X-RapidAPI-Key": "d1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df",
+# # 	"X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com"
+# # }
+
+# headers = {
+# 	"X-BingApis-SDK": "true",
+# 	"X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+# 	"X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com"
+# }
+
+searchUrl = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+
 headers = {
-    "X-BingApis-SDK": "true",
-    "X-RapidAPI-Key": "d1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df",
-    "X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com"
+    "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+    "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
 }
+
 
 
 def mainPage(request):
@@ -28,18 +42,24 @@ def mainPage(request):
             pageCount = page * 10
             pageOffset = pageCount - 10
         
-        searchQuery = "Technology"
         paramSearch = request.GET.get("q")
+        searchQuery = "Technology"
         if paramSearch:
             searchQuery = paramSearch
-        querystring = {"q":searchQuery,"setLang":"EN","freshness":"Day","count": pageCount, "offset": pageOffset ,"originalImg": 'true',"textFormat":"Raw","safeSearch":"Off"}
-        response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
-        trendNews = (response['value'])
-        # trendNews = []
-        
-        savedNews = newsModel.objects.values_list("title", flat=True)
+
+        savedNews = newsModel.objects.all()
         savedNews = list(savedNews)
         
+        # querystring = {"q":searchQuery,"setLang":"EN","freshness":"Day","count": pageCount, "offset": pageOffset ,"originalImg": 'true',"textFormat":"Raw","safeSearch":"Off"}
+        # response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
+        querystring = {"q":searchQuery,"pageNumber":"1","pageSize":"20","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+        response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
+        if 'error' in response.keys():
+            trendNews = savedNews
+            trendNews = savedNews[:20:-1]
+        else:
+            trendNews = response['value']
+        print(trendNews)
         return render(request, 'Itracker/index.html', context={'trendNews': trendNews, 'savedNews': savedNews, 'page': page, "form":form, 'query':searchQuery})
     else:
         return redirect('/login')
@@ -56,7 +76,7 @@ def searchNews(request):
                 pageOffset = 0
 
 
-                querystring = {"q":searchQuery,"setLang":"EN","freshness":"Day","count": pageCount, "offset": pageOffset ,"originalImg": 'true',"textFormat":"Raw","safeSearch":"Off"}
+                querystring = {"q":searchQuery,"pageNumber":"1","pageSize":"20","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
                 response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
                 trendNews = (response['value'])
         
@@ -70,27 +90,50 @@ def searchNews(request):
 
 def saveToProfile(request, name, page):
     if request.user.is_authenticated:
-        querystring = {"q":name,"setLang":"EN","count": 1,"originalImg": 'true',"textFormat":"Raw","safeSearch":"Off"}
+        name.replace('%20', ' ')
+        querystring = {"q":name, "pageNumber":"1","pageSize":"1","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
         response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
-        if response['value'][0]:
+        print(response)
+        if 'error' in response.keys():
+            filtered_item = newsModel.objects.filter(title=name)[:1]
+            if filtered_item:
+                newName = filtered_item[0].title
+                newDesc = filtered_item[0].description
+                newUrl = filtered_item[0].url
+                newImage = filtered_item[0].image
+        elif response['value'][0]:
             new = response['value'][0]
-            newName = new['name']
+            newName = new['title']
             newDesc = new['description']
             newUrl = new['url']
             
             if 'image' in new.keys():
-                if new['image']['contentUrl'] :
-                    newImage = new['image']['contentUrl']
+                if new['image']['url'] :
+                    newImage = new['image']['url']
                 else:
                     newImage = 'not found'
             else:
                 newImage = 'not found'
-            request.user.newsmodel_set.create(
-                url = newUrl,
-                title = newName,
-                description = newDesc,
-                image = newImage,
-            )
+
+        # elif response['value'][0]:
+        #     new = response['value'][0]
+        #     newName = new['name']
+        #     newDesc = new['description']
+        #     newUrl = new['url']
+            
+        #     if 'image' in new.keys():
+        #         if new['image']['contentUrl'] :
+        #             newImage = new['image']['contentUrl']
+        #         else:
+        #             newImage = 'not found'
+        #     else:
+        #         newImage = 'not found'
+        request.user.usersavednewsmodel_set.create(
+            url = newUrl,
+            title = newName,
+            description = newDesc,
+            image = newImage,
+        )
         return redirect(f'/?page={page}')
 
 def shareUrl(request,name,page):
@@ -105,24 +148,113 @@ def shareUrl(request,name,page):
 
 def savedNews(request):
     if request.user.is_authenticated:
-        savedNews = newsModel.objects.filter(user=request.user)
+        savedNews = userSavedNewsModel.objects.filter(user=request.user)
         return render(request, 'Itracker/savedNews.html',context={'savedNews':savedNews})
     else:
         return redirect('/login')
 
 def savedNewDelete(request,newId):
     if newId:
-        new = newsModel.objects.get(id=newId)
+        new = userSavedNewsModel.objects.get(id=newId)
         new.delete()
         messages.success(request, 'Removed from profile!')
     return redirect('/accounts/profile/saved-news')
 
 def savedNewShare(request,newId):
     if newId:
-        new = newsModel.objects.get(id=newId)
+        new = userSavedNewsModel.objects.get(id=newId)
         if new:
             pyperclip.copy(new.url)
             messages.success(request, 'Copied to clipboard')
         else:
             messages.success(request, 'Failed to copy')
     return redirect('/accounts/profile/saved-news')
+
+
+def searchNewsLocation(request):
+    if request.method == 'POST':
+        form = searchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['searchQuery']
+            url = "https://real-time-news-data.p.rapidapi.com/local-headlines"
+
+            querystring = {"query":query,"lang":"en"}
+            headers = {
+                "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+                "X-RapidAPI-Host": "real-time-news-data.p.rapidapi.com"
+            }
+
+            response = requests.request("GET", url, headers=headers, params=querystring).json()
+            if 'data' in response.keys():
+                savedNews = response['data']
+            else:
+                savedNews = []
+                messages.success(request, f"No news found nearby {query}")
+            return render(request, 'Itracker/newsLocation.html', {'form': form, 'savedNews': savedNews})
+            
+    else:
+        form = searchForm();
+        return render(request, 'Itracker/newsLocation.html', {'form': form})
+
+# Crawlers / spiders
+
+def scrapFromWeb(request, query):
+    url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+    querystring = {"q":query,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+    headers = {
+        "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+        "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
+    }
+    response = requests.request("GET", url, headers=headers, params=querystring).json()
+
+    if 'error' not in response.keys():
+        news= response['value']
+
+        for new in news:
+            title,descr,url,image = '', '', '', ''
+            if new['title']:
+                title = new['title']
+            if new['description']:
+                descr = new['description']
+            if new['url']:
+                url = new['url']
+            if new['image']:
+                image = new['image']['url']
+            print(title, descr, url,image)
+            item = newsModel.objects.create(title=title, description=descr, image=image, url=url)
+            item.save()
+
+    return redirect('/')
+
+def scrapERT(request,query):
+    searchUrl = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+    headers = {
+        "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+        "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
+    }
+    querystring = {"q":query,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+    response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
+    if 'error' not in response.keys():
+        trendNews= response['value']
+        if trendNews:
+            for new in trendNews:
+                newName = new['title']
+                newDesc = new['description']
+                newUrl = new['url']
+                
+                if 'image' in new.keys():
+                    if new['image']['url'] :
+                        newImage = new['image']['url']
+                    else:
+                        newImage = 'not found'
+                else:
+                    newImage = 'not found'
+
+                item = newsModel.objects.create(
+                url = newUrl,
+                title = newName,
+                description = newDesc,
+                image = newImage)
+                item.save()
+    return redirect('/')
+    

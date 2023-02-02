@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if messages %}
+    {%for message in messages%}
+        <div class="alert alert-success alert-dismissible fade show js-alert" role="alert">{{message}}</div>
+{%endfor%}
+{%endif%}
+<div class="div-content">
+    <form action="/Itracker/searchLoc/" class="mb-5" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+          {{ form }}
+          <button type="submit" class="btn btn-outline-secondary">search</button>
+        </div>
+    </form>
+    {% if savedNews%}
+    <h3>{{ savedNews|length }} News Found Nearby. </h3>
+    {% for new in savedNews %}
+    <div class="row newsPost">
+        <div class="col-12">
+            <div class="d-flex p-1">
+                {% if new.photo_url %}
+                <a href="{{new.link}}"><img src="{{new.photo_url}}" target="_blank" width="200" height="200" alt="image"></a>
+                {% else %}
+                <a href="{{new.link}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                {% endif %}
+                <div class="pl-5 m-2">
+                    <h3>{{new.title}}</h3>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <a href="{{new.link}}" class="btn btn-secondary col-sm-3">Read</a>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+        <!-- <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">News can't be found with given location please try again later!</div> -->
+    {%endif%}
+</div>
+<script type="text/javascript">
+    if (document.querySelector('.js-alert')) {
+    document.querySelectorAll('.js-alert').forEach(function($el) {
+      setTimeout(() => {
+        $el.classList.remove('show');
+      }, 1500);
+    });
+  }
+</script>
+{% endblock %}

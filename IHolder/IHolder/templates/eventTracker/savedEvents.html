@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if messages %}
+    {%for message in messages%}
+        <div class="alert alert-success alert-dismissible fade show js-alert" role="alert">{{message}}</div>
+{%endfor%}
+{%endif%}
+<div class="div-content">
+    {% if savedEvents%}
+    {% for event in savedEvents %}
+    <div class="row newsPost">
+        <div class="col-12">
+            <div class="d-flex p-1">
+                <!-- {% if event.image != 'not found' %}
+                <a href="{{event.link}}"><img src="{{event.image}}" target="_blank" width="200" height="200" alt="image"></a>
+                {% else %}
+                <a href="{{event.link}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                {% endif %} -->
+                <div class="pl-5 m-2">
+                    <h3>{{event.title}}</h3>
+                    <p>{{event.description}}</p>
+                    <p>{{event.timeEvent}}</p>
+                </div>
+                <div class="col-sm-4">
+                    <a href="/accounts/profile/saved-events/delete/{{event.id}}" class="btn btn-danger col-sm-3">Remove</a>
+                    <a href="/accounts/profile/saved-news/share/{{event.id}}" class="btn btn-warning col-sm-3">Share</a>
+                    <a href="{{event.link}}" target="_blank" class="btn btn-secondary col-sm-3">Visit</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+        <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">News can't be found with given criteria please try again later!</div>
+    {%endif%}
+</div>
+<script type="text/javascript">
+    if (document.querySelector('.js-alert')) {
+    document.querySelectorAll('.js-alert').forEach(function($el) {
+      setTimeout(() => {
+        $el.classList.remove('show');
+      }, 1500);
+    });
+  }
+</script>
+{% endblock %}

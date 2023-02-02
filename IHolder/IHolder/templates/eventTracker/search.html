@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+        {%for message in messages%}
+            <div class="alert alert-success alert-dismissible fade show js-alert" role="alert">{{message}}</div>
+        {%endfor%}
+    {%endif%}
+    <form action="/events/" method="post">
+      {% csrf_token %}
+      <div class="input-group">
+        {{ form }}
+        <button type="submit" class="btn btn-outline-secondary">search</button>
+      </div>
+    </form>
+    {% if events %}
+    {% for event in events %}
+    {% if event.title and event.link %}
+    <div class="row newsPost mt-5">
+        <div class="d-flex col-12">
+            <div class="d-flex col-8 p-1">
+                <div class="pl-5 m-2">
+                    <h3>{{event.title}}</h3>
+                    <p>{{ event.description }}</p>
+                    <p>{{event.data.when}}</p>
+                    {% for ad in event.address %}
+                        <p>{{ad}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="d-flex flex-row-reverse justify-content-center">
+                    <input type="text" value="{{event.link}}" id="myInput" hidden>
+                    <button onclick="myFunction('{{event.link}}')" class="btn btn-warning col-sm-2 m-1 mt-3" id="{{event.link}}">Share</button>
+                    {% if event.title in savedEvents %}
+                    <a href="/events/save/{{event.title}}/" class="btn btn-success col-sm-2 m-1 mt-3">Saved</a>
+                    {% else %}
+                    <a href="/events/save/{{event.title}}/" class="btn btn-secondary col-sm-2 m-1 mt-3">Save</a>
+                    {%endif%}
+                    <a href="{{event.link}}}" target="_blank" class="btn btn-success col-sm-2 m-1 mt-3">Visit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    {%endfor%}
+    {%else%}
+        <div class="alert alert-danger alert-dismissible fade show js-alert" role="alert">Events can't be found with given criteria please try again later!</div>
+    {%endif%}
+
+</div>
+<script type="text/javascript">
+    if (document.querySelector('.js-alert')) {
+    document.querySelectorAll('.js-alert').forEach(function($el) {
+      setTimeout(() => {
+        $el.classList.remove('show');
+      }, 1500);
+    });
+  }
+
+  function myFunction(url) {
+    console.log(url)
+    var copyText = document.getElementById("myInput");
+    var btn = document.getElementById(url);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+    btn.innerText = "Copied";
+    btn.className = "btn btn-success col-sm-3"
+    setInterval(() => { btn.innerText = "Share"; btn.className = "btn btn-warning col-sm-3"},5000);
+    }
+
+</script>
+{% endblock %}
