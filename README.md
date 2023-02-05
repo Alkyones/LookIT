@@ -74,4 +74,5 @@ Responsive Events/News Tracking Website Using Django &amp; JavaScript For Backen
 - Sharing list between friends.
 - More crawlers.
 - API support (After domain register).
-
+- Cron implementation for database updates.
+- Search / Display Optimization.
