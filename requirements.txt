@@ -1,0 +1,7 @@
+Django
+pyperClip
+requests
+beautifulsoup4
+django-crispy-forms
+google-search-results
+selenium
