@@ -18,18 +18,19 @@
     </form>
     {% if savedNews%}
     <h3>{{ savedNews|length }} News Found Nearby. </h3>
+    <br>
     {% for new in savedNews %}
     <div class="row newsPost">
         <div class="d-flex col-12">
-            <div class="d-flex p-1">
+            <div class="d-flex col-sm-3 m-2 p-1">
                 {% if new.photo_url %}
                 <a href="{{new.link}}"><img src="{{new.photo_url}}" target="_blank" width="200" height="200" alt="image"></a>
                 {% else %}
                 <a href="{{new.link}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
                 {% endif %}
-                <div class="pl-5 m-2">
-                    <h3>{{new.title}}</h3>
-                </div>
+            </div>
+            <div class="pl-5 col-sm-6 m-2">
+                <h3>{{new.title}}</h3>
             </div>
             <div class="col-sm-4">
                 <a href="{{new.link}}" class="btn btn-secondary col-sm-3">Read</a>

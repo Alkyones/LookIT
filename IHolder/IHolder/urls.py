@@ -19,6 +19,7 @@ from register import views as register_views
 from Itracker.views import mainPage as baseView
 from Itracker import views as itracker_views
 from eventTracker import views as eventTracker_views
+from friends import views as friends_views
 
 urlpatterns = [
     #system urls for admin and authendication
@@ -35,6 +36,7 @@ urlpatterns = [
     path('accounts/profile/saved-events/share/<int:eventId>/', eventTracker_views.savedEventShare, name='saved-events-share'),
     path('accounts/profile/saved-news/delete/<int:eventId>/', eventTracker_views.savedEventDelete, name='saved-events-delete'),
 
+    path('accounts/profile/friends', friends_views.friends, name='friends'),
 
     path('', baseView, name="Index_page"),
     #urls for the app
@@ -42,7 +44,8 @@ urlpatterns = [
     path('accounts/Linksaver/', include('linksaver.urls')),
     path('accounts/EmailHandler/', include('emailrenderer.urls')), 
     path('Itracker/', include('Itracker.urls')),
-    path('events/', include('eventTracker.urls')) 
+    path('events/', include('eventTracker.urls')), 
+    path('ai/', include('AI.urls'))
 
 
 ]

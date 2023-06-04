@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'emailrenderer.apps.EmailrendererConfig',
     'Itracker.apps.ItrackerConfig',
     'eventTracker.apps.EventtrackerConfig',
+    'friends.apps.FriendsConfig',
+    'AI.apps.AiConfig',
+    'crispy_bootstrap4'
 ]
 
 MIDDLEWARE = [

@@ -6,22 +6,9 @@ import requests
 import pyperclip
 
 
-# Create your views here.
-# searchUrl = "https://bing-news-search1.p.rapidapi.com/news/search"
-# # headers = {
-# # 	"X-BingApis-SDK": "true",
-# # 	"X-RapidAPI-Key": "d1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df",
-# # 	"X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com"
-# # }
-
-# headers = {
-# 	"X-BingApis-SDK": "true",
-# 	"X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
-# 	"X-RapidAPI-Host": "bing-news-search1.p.rapidapi.com"
-# }
-
 searchUrl = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
-
+#! prod 'X-RapidAPI-Key': 'd1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df',
+#!      'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
 headers = {
     "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
     "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
@@ -49,17 +36,15 @@ def mainPage(request):
 
         savedNews = newsModel.objects.all()
         savedNews = list(savedNews)
-        
-        # querystring = {"q":searchQuery,"setLang":"EN","freshness":"Day","count": pageCount, "offset": pageOffset ,"originalImg": 'true',"textFormat":"Raw","safeSearch":"Off"}
-        # response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
+       
         querystring = {"q":searchQuery,"pageNumber":"1","pageSize":"20","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
         response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
         if 'error' in response.keys():
+            print("Error")
             trendNews = savedNews
             trendNews = savedNews[:20:-1]
         else:
             trendNews = response['value']
-        print(trendNews)
         return render(request, 'Itracker/index.html', context={'trendNews': trendNews, 'savedNews': savedNews, 'page': page, "form":form, 'query':searchQuery})
     else:
         return redirect('/login')
@@ -76,7 +61,7 @@ def searchNews(request):
                 pageOffset = 0
 
 
-                querystring = {"q":searchQuery,"pageNumber":"1","pageSize":"20","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+                querystring = {"q":searchQuery,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
                 response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
                 trendNews = (response['value'])
         
@@ -93,7 +78,6 @@ def saveToProfile(request, name, page):
         name.replace('%20', ' ')
         querystring = {"q":name, "pageNumber":"1","pageSize":"1","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
         response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
-        print(response)
         if 'error' in response.keys():
             filtered_item = newsModel.objects.filter(title=name)[:1]
             if filtered_item:
@@ -179,6 +163,8 @@ def searchNewsLocation(request):
             url = "https://real-time-news-data.p.rapidapi.com/local-headlines"
 
             querystring = {"query":query,"lang":"en"}
+            #! prod 'X-RapidAPI-Key': 'd1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df',
+            #!      'X-RapidAPI-Host': 'real-time-news-data.p.rapidapi.com'
             headers = {
                 "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
                 "X-RapidAPI-Host": "real-time-news-data.p.rapidapi.com"
@@ -198,9 +184,12 @@ def searchNewsLocation(request):
 
 # Crawlers / spiders
 
-def scrapFromWeb(request, query):
+def scrapFromWeb( query):
     url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+
     querystring = {"q":query,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+    #! prod 'X-RapidAPI-Key': 'd1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df',
+    #!      'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
     headers = {
         "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
         "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
@@ -220,13 +209,11 @@ def scrapFromWeb(request, query):
                 url = new['url']
             if new['image']:
                 image = new['image']['url']
-            print(title, descr, url,image)
             item = newsModel.objects.create(title=title, description=descr, image=image, url=url)
             item.save()
+    return
 
-    return redirect('/')
-
-def scrapERT(request,query):
+def scrapERT(query="technology"):
     searchUrl = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
     headers = {
         "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
@@ -256,5 +243,7 @@ def scrapERT(request,query):
                 description = newDesc,
                 image = newImage)
                 item.save()
-    return redirect('/')
+        return
     
+# scrapFromWeb("Technology")
+# scrapERT("Technology")

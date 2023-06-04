@@ -9,11 +9,13 @@
 
 
 {% block content %}
-{% if form.error %}
+
+
+{% if form.errors %}
 <div class="alert alert-secondary alert-dismissible fade show" role="alert">
     <ul class="messages">
         {% for error in form.errors %}
-        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ error }}</li>
+        <p>Username-password doesn't match please try again.</p>
         {% endfor %}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </ul>

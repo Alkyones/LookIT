@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Chat | IHolder</title>
+<link rel="stylesheet" href="{% static 'todo/user_lists.css'%}">
+{% endblock %}
+
+{% block content %}
+<center style="margin-top:1.2rem;"><h2>{{user|title}}'s Chat</h2></center>
+<div class="div-content">
+    <div class="content-top">
+        <div class="div-content-head-inner-right">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="flex-form">
+                    <input type="text"id="keyword" name="keyword" placeholder="Enter question here..." class="form-control" autocomplete="off">
+                    <button type="submit" class="btn btn-secondary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="content-bottom">
+        <br>
+        <div id="spinner" class="spinner-border text-primary" role="status">
+        </div>
+        <br>
+        <h2>User Results</h2>
+        <div class="container">
+            <div class="row">
+              {% for item in result %}
+                <div class="col-sm-4 mb-4">
+                  <a href="/ai/chat/{{item.id}}">{{item.keyword}}</a>
+                </div>
+                {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                  </div><div class="row">
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+    </div>
+</div>
+<script>
+    document.querySelector('#spinner').style.display = 'none';
+    document.querySelector('form').addEventListener('submit', function() {
+    document.querySelector('#spinner').style.display = 'inline-block';
+    console.log("hello world")
+    });
+</script>
+{% endblock %}  

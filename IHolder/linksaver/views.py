@@ -14,7 +14,7 @@ def linksaverIndex(request):
                 url=data['url'], title=data['title'])
 
     form = linksForm()
-    links = request.user.linksmodel_set.all()
+    links = request.user.linksmodel_set.all() # save and insert 
     context = {
         'form': form,
         'links': links,

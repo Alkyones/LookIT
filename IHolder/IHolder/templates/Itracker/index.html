@@ -20,20 +20,22 @@
     <div class="row newsPost">
         <div class="col-12">
             <div class="d-flex p-1">
+              <div class="col-3" style="width:200px; height:200px">
                 {% if new.image.contentUrl %}
                 <a href="{{new.url}}"><img src="{{new.image.contentUrl}}" target="_blank" width="200" height="200" alt="image"></a>
                 {% else %}
                 {% if new.image.url%}
-                <a href="{{new.url}}"><img src="{{new.image.url}}"  width="200" height="200" alt="image"></a>
-                {% elif new.image %}
-                {% if new.image != 'not found' %}
-                <a href="{{new.url}}"><img src="{{new.image}}"  width="200" height="200" alt="image"></a>
-                {% else %}
-                <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
-                {% endif %}
-                {%else%}
-                <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
-                {%endif%}
+                  <a href="{{new.url}}"><img src="{{new.image.url}}"  width="200" height="200" alt="image"></a>
+                  {% elif new.image %}
+                  {% if new.image != 'not found' %}
+                  <a href="{{new.url}}"><img src="{{new.image}}"  width="200" height="200" alt="image"></a>
+                  {% else %}
+                  <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                  {% endif %}
+                  {%else%}
+                  <a href="{{new.url}}"><img src="{% static 'Itracker/brokenImage.jpg' %}"  width="200" height="200" alt="image"></a>
+                  {%endif%}
+                </div>
                 {% endif %}
                 <div class="pl-5 m-2">
                     {% if new.name %}

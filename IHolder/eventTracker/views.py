@@ -7,57 +7,8 @@ from selenium.webdriver.common.by import By
 from Itracker.forms import searchForm 
 from .models import SavedEvents, searchSavedEvents, userSavedEventsModel
 from django.contrib import messages
+import time
 
-chrome_options = Options()
-chrome_options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
-chrome_options.add_argument("--headless")
-
-url = "https://www.eventbrite.com/d/online/all-events/"
-driver = webdriver.Chrome(options=chrome_options)
-driver.get(url)
-page_source = driver.page_source
-soup = BeautifulSoup(page_source, 'lxml')
-newsToSave = []
-listNews = soup.find('div', {'class':'search-results-panel-content'}).find('ul').find_all('li')
-for li in listNews:
-    newObj = {}
-    article = li.find('article')
-    if article:
-        primary = article.find('div', {'class': 'eds-event-card-content__primary-content'})
-        if primary:
-            title = primary.find('div', {'class':'eds-is-hidden-accessible'})
-            if not title: title = 'No title'
-            else: title = title.text
-
-            timeArticle = li.find('div', {'class':'eds-event-card-content__sub-title'})
-            if timeArticle:
-                timeArticle = timeArticle.text
-            else: timeArticle = 'No time'
-
-        publisher = article.find('div', {'data-subcontent-key':'organizerName'})
-        if publisher: publisher = publisher.text
-        else: publisher = 'No publisher'
-
-        
-        link = li.find('a')
-        if link:
-            link = link['href']
-        else: image = 'not found'
-
-        img = article.find('img')
-        if img : img = img['src']
-        else: img = 'not found'
-    
-    newObj['link'] = link
-    newObj['title'] = title
-    newObj['image'] = img
-    newObj['timeEvent'] = timeArticle
-    newObj['publisher'] = publisher
-    newsToSave.append(newObj)
-
-for item in newsToSave:
-    so = SavedEvents.objects.create(**item)
-    so.save()
 
 
 def eventTrackerMain(request):
@@ -66,7 +17,7 @@ def eventTrackerMain(request):
         form = searchForm(request.POST)
         if form.is_valid():
             q = form.cleaned_data['searchQuery']
-            if not q : q = 'ukraine'
+            if not q : q = 'world' # default if needed
             query = "Technology events in " + q
             params = {
             "api_key": "f3a475f6e29e497877e080689748bc0fe45ac40a573a1e775da3679a8634f183",
@@ -137,8 +88,6 @@ def savedUserEvents(request):
             messages.success(request, 'No events can be found please try again later.')
             return render(request, 'eventTracker/savedEvents.html')
 
-def savedEventShare(request, id):
-    pass
 
 def savedEventDelete(request, id):
     if id:
@@ -146,3 +95,48 @@ def savedEventDelete(request, id):
         new.delete()
         messages.success(request, 'Removed from profile!')
     return redirect('/accounts/profile/saved-news')
+
+def eventCrawler():
+    options = Options()
+    options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2})
+    options.add_argument("--headless")
+
+    url = "https://www.eventbrite.com/d/online/all-events/"
+    driver = webdriver.Chrome(options=options)
+    driver.get(url)
+    time.sleep(2)
+    page_source = driver.page_source
+    soup = BeautifulSoup(page_source, 'lxml')
+    newsToSave = []
+    listNews = soup.find('div', {'class':'search-results-panel-content'}).find('ul', {"class": "search-main-content__events-list"}).find_all('li')
+    for li in listNews:
+        newObj = {}
+        sectionTitleInfo = li.find('section')
+        ps = sectionTitleInfo.find_all("p", {"class": "Typography_root__lp5bn"})
+        if sectionTitleInfo:
+            print(sectionTitleInfo)
+            link = sectionTitleInfo.find("a")["href"]
+            title = sectionTitleInfo.find("h2").text
+            eventDate = ps[0].text
+            publisher = "No Publisher"
+        
+            img = sectionTitleInfo.find('img')
+            if img : img = img['src']
+            else: img = 'not found'
+        
+            newObj['link'] = link
+            newObj['title'] = title
+            newObj['image'] = img
+            newObj['timeEvent'] = eventDate
+            newObj['publisher'] = publisher
+            newsToSave.append(newObj)
+        for item in newsToSave:
+            so = SavedEvents.objects.create(**item)
+            print(so)
+            so.save()
+    return
+
+def savedEventShare(request, id):
+    pass
+
+# eventCrawler()

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Chat | IHolder</title>
+<link rel="stylesheet" href="{% static 'todo/user_lists.css'%}">
+{% endblock %}
+
+{% block content %}
+<center style="margin-top:1.2rem;"><h2>{{user|title}}'s Chat</h2></center>
+<div class="div-content">
+        <div class="container">
+          <h1>{{item.keyword}}</h1>
+          <h3>Popular searches related...</h3>
+          <br>
+          {% for link in itemLinks%}
+          <a href="{{link.link}}" target="_blank">{{link.title}}</a>
+          <br>   
+          {%endfor%}
+        </div>
+</div>
+{% endblock %}  

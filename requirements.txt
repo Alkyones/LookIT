@@ -6,3 +6,4 @@ django-crispy-forms
 google-search-results
 selenium
 djongo
+cors
