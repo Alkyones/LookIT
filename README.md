@@ -6,6 +6,9 @@ Responsive Events/News Tracking Website Using Django &amp; JavaScript For Backen
 - Improves user experience and security by using AJAX.
 - Visualizes news and events.
 - Compatible with all mobile devices and desktops (Used latest Bootstrap 5.2).
+- Data Lake interaction over user actions
+- Data sorting and categorizing for data providing.
+- Data Back up and modification for user needs and data needed fields.
 
 ## Authentication
 ![auth](/assets/auth.jpg)
