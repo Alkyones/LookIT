@@ -11,7 +11,7 @@ urlpatterns = [
 
     path('searchLoc/', views.searchNewsLocation, name='search_news_location'),
 
-    path('crawl1/<str:query>/', views.scrapFromWeb, name='scrap_from_web'),
-    path('crawl2/<str:query>/', views.scrapERT, name='scrap_from_web2')
+    path('crawl1/', views.scrapFromWeb, name='scrap_from_web'),
+    path('crawl2/', views.scrapERT, name='scrap_from_web2')
 
 ]

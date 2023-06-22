@@ -24,6 +24,8 @@ def chat(request):
     userSearches = AIChatModelNew.objects.filter(user=request.user)
     if request.method == 'POST':
         keyword = request.POST['keyword']
+        if len(keyword) == 0:
+            return render(request, 'ai/chat.html', {'result': userSearches})
         user = request.user  
         
         keyword = keyword.replace(' ', '+') # url conversion
@@ -31,10 +33,10 @@ def chat(request):
         keyword = keyword.replace('+', ' ')
 
         
-        myElem = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.ID, 'b_results')))
-        print("page ready")
+        myElem = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, 'b_results')))
         all_li = BeautifulSoup(driver.page_source, 'lxml')
         all_li = all_li.find("ol", {"id":"b_results"})
+        print(all_li)
         all_li = all_li.find_all("li", {"class":"b_algo"})
         links = ""
         count = 0
@@ -48,9 +50,11 @@ def chat(request):
             item = str(title) +  " ### " + str(a)
 
             links += f"{item}\n"
-
-        result = AIChatModelNew(keyword= keyword, links= links, user= user)
-        result.save()
+            count += 1
+        
+        if count != 0:        
+            result = AIChatModelNew(keyword= keyword, links= links, user= user)
+            result.save()
         userSearches = AIChatModelNew.objects.filter(user=request.user)
         return render(request, 'ai/chat.html', {'result': userSearches})
     else:

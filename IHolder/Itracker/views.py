@@ -184,18 +184,17 @@ def searchNewsLocation(request):
 
 # Crawlers / spiders
 
-def scrapFromWeb( query):
+def scrapFromWeb( query="Technology"):
     url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
 
-    querystring = {"q":query,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
-    #! prod 'X-RapidAPI-Key': 'd1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df',
-    #!      'X-RapidAPI-Host': 'contextualwebsearch-websearch-v1.p.rapidapi.com'
+    querystring = {"q":query,"pageNumber":"1","pageSize":"10","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+
     headers = {
-        "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+        "X-RapidAPI-Key": "d1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df",
         "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
     }
-    response = requests.request("GET", url, headers=headers, params=querystring).json()
 
+    response = requests.get(url, headers=headers, params=querystring).json()
     if 'error' not in response.keys():
         news= response['value']
 
@@ -211,16 +210,19 @@ def scrapFromWeb( query):
                 image = new['image']['url']
             item = newsModel.objects.create(title=title, description=descr, image=image, url=url)
             item.save()
-    return
+    return redirect('/')
 
 def scrapERT(query="technology"):
-    searchUrl = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+    url = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI"
+
+    querystring = {"q":query,"pageNumber":"1","pageSize":"10","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
+
     headers = {
-        "X-RapidAPI-Key": "716d4828fdmshdeb8bfb4916b0a1p14be71jsn4d10fe6a76c7",
+        "X-RapidAPI-Key": "d1bb6976c6msh67c8d6e9e403942p1585cbjsn0254498457df",
         "X-RapidAPI-Host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
     }
-    querystring = {"q":query,"pageNumber":"1","pageSize":"50","autoCorrect":"true","fromPublishedDate":"null","toPublishedDate":"null"}
-    response = requests.request("GET", searchUrl, headers=headers, params=querystring).json()
+
+    response = requests.get(url, headers=headers, params=querystring).json()
     if 'error' not in response.keys():
         trendNews= response['value']
         if trendNews:
@@ -243,7 +245,8 @@ def scrapERT(query="technology"):
                 description = newDesc,
                 image = newImage)
                 item.save()
-        return
+    return redirect('/')
+        
     
 # scrapFromWeb("Technology")
 # scrapERT("Technology")

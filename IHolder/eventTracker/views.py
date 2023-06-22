@@ -112,7 +112,8 @@ def eventCrawler():
     for li in listNews:
         newObj = {}
         sectionTitleInfo = li.find('section')
-        ps = sectionTitleInfo.find_all("p", {"class": "Typography_root__lp5bn"})
+        ps = sectionTitleInfo.find_all("p", {"class": "Typography_align-match-parent__4bejd"})
+        print(ps)
         if sectionTitleInfo:
             print(sectionTitleInfo)
             link = sectionTitleInfo.find("a")["href"]
@@ -135,6 +136,7 @@ def eventCrawler():
             print(so)
             so.save()
     return
+
 
 def savedEventShare(request, id):
     pass
