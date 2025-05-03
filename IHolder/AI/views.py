@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-import undetected_chromedriver as uc
+import undetected_chromedriver as uc # type: ignore
 import json
 
 from django.db import models
