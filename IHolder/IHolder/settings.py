@@ -11,17 +11,20 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import json
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+CREDENTIALS_DIR = Path(__file__).resolve().parent.parent.parent
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+credentialsFile = Path.joinpath(CREDENTIALS_DIR .parent.parent, 'credentials/lookit.json')
+credentials = json.load(open(credentialsFile))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pfb1rhh%o4fymr8)zc%cb^q3-#y#6lq1ho11&t$7*h+#m80&e-'
+SECRET_KEY = credentials['secretKey']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -65,7 +68,7 @@ ROOT_URLCONF = 'IHolder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'IHolder/templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'IHolder', 'templates')],  # Fix here
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,10 +97,10 @@ WSGI_APPLICATION = 'IHolder.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
-            'NAME': 'Itracker_prod',
+            'NAME': credentials['dbName'],
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://Alkyone:asdwer123@itracker.c7pxpwx.mongodb.net/?retryWrites=true&w=majority'
+                'host': credentials['dbUrl'],
             }  
         }
 }
@@ -136,12 +139,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-STATIC_FILES_DIRS = [
-    BASE_DIR / 'static',
-    BASE_DIR / 'IHolder/static',
-    BASE_DIR / 'IHolder/static/register'
-    ]
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'register', 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
